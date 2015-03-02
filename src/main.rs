@@ -1,6 +1,9 @@
 #![feature(old_io)]
 
+type NumType = f64;
+
 mod eval;
+mod tokenizer;
 
 use std::old_io::stdio;
 
