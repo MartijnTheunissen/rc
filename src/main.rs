@@ -15,7 +15,7 @@ fn main() {
         std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
 
     if !input.is_empty() {
-        calc.evaluate(&input);
+        println!("= {}", calc.evaluate(&input));
         return;
     }
 
