@@ -1,24 +1,6 @@
 use NumType;
-
-#[derive(Debug)]
-enum InfixOperatorType {
-    Add,
-    Sub,
-    Div,
-    Mul
-}
-
-#[derive(Debug)]
-enum Token {
-    InfixOperator(InfixOperatorType),
-    LParen,
-    RParen,
-    Assign,
-    Num(NumType),
-    Ident(String)
-}
-
 use std::str::FromStr;
+use tokens::{Token};
 
 #[derive(Debug)]
 enum Error {
@@ -72,8 +54,8 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
     let mut chars = chars.peekable();
 
     while let Some(&c) = chars.peek() {
-        use self::Token::*;
-        use self::InfixOperatorType::*;
+        use tokens::Token::*;
+        use tokens::InfixOperatorType::*;
 
         match c {
             '+' => {

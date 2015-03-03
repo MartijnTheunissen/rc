@@ -3,6 +3,7 @@
 type NumType = f64;
 
 mod calc;
+mod tokens;
 mod tokenizer;
 
 use std::old_io::stdio;
