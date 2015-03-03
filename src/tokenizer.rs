@@ -33,14 +33,13 @@ fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
         match c {
-            '0' ... '9' => {
-                string.push(c);
-                chars.next();
-            }
             ' ' | ')' => {
                 break;
             }
-            c => return Err(Error::UnexpectedChar(c))
+            c => {
+                string.push(c);
+                chars.next();
+            }
         }
     }
     match string.parse() {
