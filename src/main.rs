@@ -1,4 +1,4 @@
-#![feature(old_io)]
+#![feature(io)]
 
 type NumType = f64;
 
@@ -6,10 +6,10 @@ mod calc;
 mod tokens;
 mod tokenizer;
 
-use std::old_io::stdio;
+use std::io::{self, BufReadExt};
 
 fn main() {
-    let mut reader = stdio::stdin();
+    let reader = io::stdin();
     let mut calc = calc::Calc::new();
 
     let input =
