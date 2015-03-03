@@ -16,12 +16,12 @@ fn main() {
         std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
 
     if !input.is_empty() {
-        println!("= {}", calc.evaluate(&input));
+        calc.eval_print(&input);
         return;
     }
 
     for line_result in reader.lock().lines() {
         let text = line_result.unwrap();
-        println!("= {}", calc.evaluate(text.trim()));
+        calc.eval_print(text.trim());
     }
 }
