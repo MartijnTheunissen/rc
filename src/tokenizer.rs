@@ -18,9 +18,12 @@ enum Token {
     Ident(String)
 }
 
+use std::str::FromStr;
+
 #[derive(Debug)]
 enum Error {
-    UnexpectedChar(char)
+    UnexpectedChar(char),
+    NumParseError(<NumType as FromStr>::Err)
 }
 
 use std::iter::Peekable;
@@ -40,7 +43,10 @@ fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
             c => return Err(Error::UnexpectedChar(c))
         }
     }
-    Ok(string.parse().unwrap())
+    match string.parse() {
+        Ok(num) => Ok(num),
+        Err(e) => Err(Error::NumParseError(e))
+    }
 }
 
 fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
