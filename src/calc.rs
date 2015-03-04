@@ -52,7 +52,7 @@ impl Calc {
             println!("{:?} | {:?}", operands, operators);
         }
 
-        // The last remaining number in the stack is the answer
+        // The last remaining operand in the stack is the answer
         let result = match operands.pop() {
             Some(tok) => match tok {
                 Operand::Num(n) => Ok(n),
