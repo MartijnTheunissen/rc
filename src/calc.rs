@@ -68,7 +68,7 @@ impl Calc {
        where T: Iterator<Item = Token> {
         let mut operands: Vec<Operand> = Vec::new();
         let mut operators: Vec<Operator> = Vec::new();
-        let assign_to: Option<String> = None;
+        let mut assign_to: Option<String> = None;
 
         for token in tokens {
             print!("{:?} | ", token);
@@ -101,7 +101,15 @@ impl Calc {
                         }
                     }
                 }
-                t => return Err(Error::UnexpectedToken(t))
+                Token::Assign => {
+                    match operands.pop() {
+                        Some(op) => match op {
+                            Operand::Var(v) => assign_to = Some(v),
+                            _ => panic!("FUCK")
+                        },
+                        _ => panic!("FUCK")
+                    }
+                }
             }
             println!(" nums: {:?} | ops: {:?}", operands, operators);
         }
