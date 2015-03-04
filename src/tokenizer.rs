@@ -2,8 +2,8 @@ use NumType;
 use std::str::FromStr;
 use tokens::{Token};
 
-#[derive(Debug)]
-enum Error {
+#[derive(Debug, PartialEq)]
+pub enum Error {
     UnexpectedChar(char),
     NumParseError(<NumType as FromStr>::Err)
 }
@@ -55,11 +55,12 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
 
     while let Some(&c) = chars.peek() {
         use tokens::Token::*;
-        use tokens::InfixOp::*;
+        use tokens::Operator::*;
+        use tokens::Operand::*;
 
         match c {
             '+' => {
-                tokens.push(Infix(Add));
+                tokens.push(Operator(Add));
                 chars.next();
             }
             // Either an infix - or a number with - prefix
@@ -70,32 +71,32 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                         // Number with - prefix
                         '0' ... '9' => {
                             let n = try!(get_num(&mut chars));
-                            tokens.push(Num(-n));
+                            tokens.push(Operand(Num(-n)));
                         }
                         ' ' => {
-                            tokens.push(Infix(Sub));
+                            tokens.push(Operator(Sub));
                         }
                         c => return Err(Error::UnexpectedChar(c))
                     },
                     None => {
-                        tokens.push(Infix(Sub));
+                        tokens.push(Operator(Sub));
                     }
                 }
             },
             '/' => {
-                tokens.push(Infix(Div));
+                tokens.push(Operator(Div));
                 chars.next();
             }
             '*' => {
-                 tokens.push(Infix(Mul));
+                 tokens.push(Operator(Mul));
                  chars.next();
             }
             '(' => {
-                tokens.push(LParen);
+                tokens.push(Operator(LParen));
                 chars.next();
             }
             ')' => {
-                tokens.push(RParen);
+                tokens.push(Operator(RParen));
                 chars.next();
             }
             '=' => {
@@ -103,11 +104,11 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                 chars.next();
             }
             '0' ... '9' => {
-                tokens.push(Num(try!(get_num(&mut chars))));
+                tokens.push(Operand(Num(try!(get_num(&mut chars)))));
             }
             ' ' => { chars.next(); }
             c if c == '_' || c.is_alphabetic() => {
-                tokens.push(Ident(try!(get_ident(&mut chars))));
+                tokens.push(Operand(Var(try!(get_ident(&mut chars)))));
             }
             c => return Err(Error::UnexpectedChar(c))
         }

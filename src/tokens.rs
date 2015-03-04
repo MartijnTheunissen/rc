@@ -1,19 +1,24 @@
 use NumType;
 
 #[derive(Debug)]
-pub enum InfixOp {
+pub enum Operator {
     Add,
     Sub,
     Div,
-    Mul
+    Mul,
+    LParen,
+    RParen
+}
+
+#[derive(Debug)]
+pub enum Operand {
+    Num(NumType),
+    Var(String)
 }
 
 #[derive(Debug)]
 pub enum Token {
-    Infix(InfixOp),
-    LParen,
-    RParen,
-    Assign,
-    Num(NumType),
-    Ident(String)
+    Operator(Operator),
+    Operand(Operand),
+    Assign
 }
