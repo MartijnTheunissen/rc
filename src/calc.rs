@@ -11,6 +11,7 @@ pub struct Calc {
 enum Error {
     UndefinedVariable(String),
     SyntaxError(tokenizer::Error),
+    UnexpectedToken(Token),
     Other(String)
 }
 
@@ -47,7 +48,7 @@ impl Calc {
                 Token::Operand(o) => {
                     operands.push(o);
                 }
-                _ => {}
+                t => return Err(Error::UnexpectedToken(t))
             }
             println!("{:?} | {:?}", operands, operators);
         }

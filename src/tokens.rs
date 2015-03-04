@@ -1,6 +1,6 @@
 use NumType;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Operator {
     Add,
     Sub,
@@ -10,13 +10,13 @@ pub enum Operator {
     RParen
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Operand {
     Num(NumType),
     Var(String)
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Token {
     Operator(Operator),
     Operand(Operand),
