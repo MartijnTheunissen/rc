@@ -36,6 +36,34 @@ impl Calc {
         }
     }
 
+    fn do_op(&self, operands: &mut Vec<Operand>, operators: &mut Vec<Operator>) {
+        let op = operators.pop().unwrap();
+        if op == Operator::LParen {
+            return;
+        }
+        let rhs = match operands.pop().unwrap() {
+            Operand::Num(n) => n,
+            Operand::Var(v) => self.lookup_var(v).unwrap()
+        };
+        let lhs = match operands.pop().unwrap() {
+            Operand::Num(n) => n,
+            Operand::Var(v) => self.lookup_var(v).unwrap()
+        };
+        let result = match op {
+            Operator::Infix(infix) => {
+                use tokens::InfixOp;
+                match infix {
+                    InfixOp::Add => lhs + rhs,
+                    InfixOp::Sub => lhs - rhs,
+                    InfixOp::Mul => lhs * rhs,
+                    InfixOp::Div => lhs / rhs
+                }
+            }
+            _ => panic!("Unexpected")
+        };
+        operands.push(Operand::Num(result));
+    }
+
     fn eval_tokens<T>(&mut self, tokens: T) -> Result<NumType, Error>
        where T: Iterator<Item = Token> {
         let mut operands: Vec<Operand> = Vec::new();
@@ -48,9 +76,38 @@ impl Calc {
                 Token::Operand(o) => {
                     operands.push(o);
                 }
+                Token::Operator(o) => {
+                    match o {
+                        Operator::Infix(infix) => {
+                            if let Some(prev_op) = operators.pop() {
+                                // Put it back
+                                operators.push(prev_op);
+                                match prev_op {
+                                    Operator::Infix(prev_infix) => {
+                                        if prev_infix.precedence() >= infix.precedence() {
+                                            self.do_op(&mut operands, &mut operators);
+                                        }
+                                    }
+                                    Operator::LParen => {}
+                                    _ => panic!("Unexpected!")
+                                }
+                            }
+                            operators.push(Operator::Infix(infix));
+                        },
+                        Operator::LParen => { operators.push(Operator::LParen)
+                        },
+                        Operator::RParen => {
+                            self.do_op(&mut operands, &mut operators);
+                        }
+                    }
+                }
                 t => return Err(Error::UnexpectedToken(t))
             }
-            println!("{:?} | {:?}", operands, operators);
+            println!(" nums: {:?} | ops: {:?}", operands, operators);
+        }
+
+        while !operators.is_empty() {
+            self.do_op(&mut operands, &mut operators);
         }
 
         // The last remaining operand in the stack is the answer

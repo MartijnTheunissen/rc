@@ -1,6 +1,6 @@
 use NumType;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Copy)]
 pub enum InfixOp {
     Add,
     Sub,
@@ -8,7 +8,17 @@ pub enum InfixOp {
     Mul
 }
 
-#[derive(Debug, PartialEq)]
+impl InfixOp {
+    pub fn precedence(&self) -> u8 {
+        use self::InfixOp::*;
+        match *self {
+            Add | Sub => 1,
+            Div | Mul => 2
+        }
+    }
+}
+
+#[derive(Debug, PartialEq, Copy)]
 pub enum Operator {
     Infix(InfixOp),
     LParen,
