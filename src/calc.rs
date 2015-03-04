@@ -9,7 +9,8 @@ pub struct Calc {
 
 #[derive(Debug, PartialEq)]
 enum Error {
-    Unknown
+    Unknown,
+    Other(String)
 }
 
 impl Calc {
@@ -23,7 +24,7 @@ impl Calc {
         match tokenizer::tokenize(input.chars()) {
             Ok(tokens) => {
                 println!("{:?}", tokens);
-                match self.eval_tokens(&tokens) {
+                match self.eval_tokens(tokens.into_iter()) {
                     Ok(result) => println!("= {}", result),
                     Err(e) => println!("Malformed expression: {:?}", e)
                 }
@@ -32,8 +33,14 @@ impl Calc {
         }
     }
 
-    fn eval_tokens<T>(&mut self, tokens: T) -> Result<NumType, Error> {
-        Err(Error::Unknown)
+    fn eval_tokens<T>(&mut self, tokens: T) -> Result<NumType, Error>
+       where T: Iterator<Item = Token> {
+        let nums = Vec::new();
+        // The last remaining number in the stack is the answer
+        match nums.last() {
+            Some(&num) => Ok(num),
+            None => Err(Error::Other("No result? (stack empty)".to_string()))
+        }
     }
 }
 
