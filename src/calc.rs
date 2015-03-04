@@ -10,6 +10,7 @@ pub struct Calc {
 #[derive(Debug, PartialEq)]
 enum Error {
     Unknown,
+    UndefinedVariable(String),
     Other(String)
 }
 
@@ -35,12 +36,37 @@ impl Calc {
 
     fn eval_tokens<T>(&mut self, tokens: T) -> Result<NumType, Error>
        where T: Iterator<Item = Token> {
-        let nums = Vec::new();
+        let mut operands: Vec<Token> = Vec::new();
+        let mut operators: Vec<Token> = Vec::new();
+
+        for token in tokens {
+            print!("{:?} | ", token);
+            match token {
+                Token::Num(n) => {
+                    operands.push(token);
+                }
+                _ => {}
+            }
+            println!("{:?} | {:?}", operands, operators);
+        }
+
         // The last remaining number in the stack is the answer
-        match nums.last() {
-            Some(&num) => Ok(num),
+        match operands.pop() {
+            Some(tok) => match tok {
+                Token::Num(n) => Ok(n),
+                Token::Ident(i) => self.lookup_var(i),
+                _ => Err(Error::Other(format!("Result is {:?}", tok)))
+            },
             None => Err(Error::Other("No result? (stack empty)".to_string()))
         }
+    }
+
+    fn lookup_var(&self, ident: String) -> Result<NumType, Error> {
+        match self.vars.get(&ident) {
+            Some(v) => Ok(*v),
+            None => Err(Error::UndefinedVariable(ident))
+        }
+
     }
 }
 
@@ -51,6 +77,33 @@ mod test {
     use tokens::Token::*;
     use tokens::InfixOperatorType::*;
     use tokens::Token::InfixOperator as I;
+
+    #[test]
+    fn test_self_yield() {
+        let mut calc = Calc::new();
+        // 2 = 2
+        let t = vec![Num(2.)];
+        assert_eq!(calc.eval_tokens(t.into_iter()), Ok(2.));
+    }
+
+    #[test]
+    fn test_self_yield_parens() {
+        let mut calc = Calc::new();
+        // 2 = 2
+        let t = vec![LParen, Num(2.), RParen];
+        assert_eq!(calc.eval_tokens(t.into_iter()), Ok(2.));
+    }
+
+    #[test]
+    fn test_assignment() {
+        let mut calc = Calc::new();
+        // over_9000 = 9000 + 1
+        let t = vec![Ident("over_9000".to_string()), Assign, Num(9000.),
+                     I(Add), Num(1.)];
+        assert_eq!(calc.eval_tokens(t.into_iter()), Ok(9001.));
+        let t = vec![Ident("over_9000".to_string())];
+        assert_eq!(calc.eval_tokens(t.into_iter()), Ok(9001.));
+    }
 
     #[test]
     fn test_simple_arith_2() {
