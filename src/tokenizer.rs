@@ -55,11 +55,11 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
 
     while let Some(&c) = chars.peek() {
         use tokens::Token::*;
-        use tokens::InfixOperatorType::*;
+        use tokens::InfixOp::*;
 
         match c {
             '+' => {
-                tokens.push(InfixOperator(Add));
+                tokens.push(Infix(Add));
                 chars.next();
             }
             // Either an infix - or a number with - prefix
@@ -73,21 +73,21 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                             tokens.push(Num(-n));
                         }
                         ' ' => {
-                            tokens.push(InfixOperator(Sub));
+                            tokens.push(Infix(Sub));
                         }
                         c => return Err(Error::UnexpectedChar(c))
                     },
                     None => {
-                        tokens.push(InfixOperator(Sub));
+                        tokens.push(Infix(Sub));
                     }
                 }
             },
             '/' => {
-                tokens.push(InfixOperator(Div));
+                tokens.push(Infix(Div));
                 chars.next();
             }
             '*' => {
-                 tokens.push(InfixOperator(Mul));
+                 tokens.push(Infix(Mul));
                  chars.next();
             }
             '(' => {

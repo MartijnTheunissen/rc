@@ -1,7 +1,7 @@
 use NumType;
 
 #[derive(Debug)]
-pub enum InfixOperatorType {
+pub enum InfixOp {
     Add,
     Sub,
     Div,
@@ -10,7 +10,7 @@ pub enum InfixOperatorType {
 
 #[derive(Debug)]
 pub enum Token {
-    InfixOperator(InfixOperatorType),
+    Infix(InfixOp),
     LParen,
     RParen,
     Assign,

@@ -75,8 +75,8 @@ mod test {
     use super::Calc;
     use tokens::*;
     use tokens::Token::*;
-    use tokens::InfixOperatorType::*;
-    use tokens::Token::InfixOperator as I;
+    use tokens::InfixOp::*;
+    use tokens::Token::Infix as I;
 
     #[test]
     fn test_self_yield() {
