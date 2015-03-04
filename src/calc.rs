@@ -39,6 +39,7 @@ impl Calc {
        where T: Iterator<Item = Token> {
         let mut operands: Vec<Operand> = Vec::new();
         let mut operators: Vec<Operator> = Vec::new();
+        let assign_to: Option<String> = None;
 
         for token in tokens {
             print!("{:?} | ", token);
@@ -52,13 +53,25 @@ impl Calc {
         }
 
         // The last remaining number in the stack is the answer
-        match operands.pop() {
+        let result = match operands.pop() {
             Some(tok) => match tok {
                 Operand::Num(n) => Ok(n),
                 Operand::Var(i) => self.lookup_var(i)
             },
             None => Err(Error::Other("No result? (stack empty)".to_string()))
+        };
+
+        if let Ok(num) = result {
+            if let Some(ident) = assign_to {
+                self.set_var(ident, num);
+            }
         }
+
+        result
+    }
+
+    fn set_var(&mut self, ident: String, num: NumType) {
+        self.vars.insert(ident, num);
     }
 
     fn lookup_var(&self, ident: String) -> Result<NumType, Error> {
