@@ -1,11 +1,16 @@
 use NumType;
 
 #[derive(Debug, PartialEq)]
-pub enum Operator {
+pub enum InfixOp {
     Add,
     Sub,
     Div,
-    Mul,
+    Mul
+}
+
+#[derive(Debug, PartialEq)]
+pub enum Operator {
+    Infix(InfixOp),
     LParen,
     RParen
 }

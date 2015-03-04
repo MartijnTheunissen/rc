@@ -57,10 +57,11 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
         use tokens::Token::*;
         use tokens::Operator::*;
         use tokens::Operand::*;
+        use tokens::InfixOp::*;
 
         match c {
             '+' => {
-                tokens.push(Operator(Add));
+                tokens.push(Operator(Infix(Add)));
                 chars.next();
             }
             // Either an infix - or a number with - prefix
@@ -74,21 +75,21 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                             tokens.push(Operand(Num(-n)));
                         }
                         ' ' => {
-                            tokens.push(Operator(Sub));
+                            tokens.push(Operator(Infix(Sub)));
                         }
                         c => return Err(Error::UnexpectedChar(c))
                     },
                     None => {
-                        tokens.push(Operator(Sub));
+                        tokens.push(Operator(Infix(Sub)));
                     }
                 }
             },
             '/' => {
-                tokens.push(Operator(Div));
+                tokens.push(Operator(Infix(Div)));
                 chars.next();
             }
             '*' => {
-                 tokens.push(Operator(Mul));
+                 tokens.push(Operator(Infix(Mul)));
                  chars.next();
             }
             '(' => {
