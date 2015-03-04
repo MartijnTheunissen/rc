@@ -71,7 +71,7 @@ impl Calc {
         let mut assign_to: Option<String> = None;
 
         for token in tokens {
-            print!("{:?} | ", token);
+            // print!("{:?} | ", token);
             match token {
                 Token::Operand(o) => {
                     operands.push(o);
@@ -111,7 +111,7 @@ impl Calc {
                     }
                 }
             }
-            println!(" nums: {:?} | ops: {:?}", operands, operators);
+            // println!(" nums: {:?} | ops: {:?}", operands, operators);
         }
 
         while !operators.is_empty() {
