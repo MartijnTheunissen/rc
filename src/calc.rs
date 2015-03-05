@@ -1,7 +1,7 @@
 use tokenizer;
 use NumType;
 use std::collections::HashMap;
-use tokens::{Token, Operand, Operator};
+use tokens::{Token, Operand, Operator, InfixOp};
 
 pub struct Calc {
     vars: HashMap<String, NumType>
@@ -12,8 +12,8 @@ enum Error {
     UndefinedVariable(String),
     SyntaxError(tokenizer::Error),
     UnexpectedToken(Token),
-    MissingLhs,
-    MissingRhs,
+    MissingLhs(InfixOp),
+    MissingRhs(InfixOp),
     Other(String)
 }
 
@@ -40,38 +40,36 @@ impl Calc {
 
     fn do_op(&self, operands: &mut Vec<Operand>,
              operators: &mut Vec<Operator>) -> Result<(), Error> {
+        use tokens::InfixOp;
         let op = match operators.pop() {
             Some(op) => op,
             None => return Err(Error::Other("Missing operator?".to_string()))
         };
-        if op == Operator::LParen {
-            return Ok(());
-        }
+        let op = match op {
+            Operator::Infix(ifx) => ifx,
+            Operator::LParen => return Ok(()),
+            Operator::RParen => return Err(Error::UnexpectedToken(
+                                           Token::Operator(Operator::RParen)))
+        };
         let rhs = match operands.pop() {
             Some(operand) => match operand {
                 Operand::Num(n) => n,
                 Operand::Var(v) => try!(self.lookup_var(v))
             },
-            None => return Err(Error::MissingRhs)
+            None => return Err(Error::MissingRhs(op))
         };
         let lhs = match operands.pop() {
             Some(operand) => match operand {
                 Operand::Num(n) => n,
                 Operand::Var(v) => try!(self.lookup_var(v))
             },
-            None => return Err(Error::MissingLhs)
+            None => return Err(Error::MissingLhs(op))
         };
         let result = match op {
-            Operator::Infix(infix) => {
-                use tokens::InfixOp;
-                match infix {
-                    InfixOp::Add => lhs + rhs,
-                    InfixOp::Sub => lhs - rhs,
-                    InfixOp::Mul => lhs * rhs,
-                    InfixOp::Div => lhs / rhs
-                }
-            }
-            o => return Err(Error::UnexpectedToken(Token::Operator(o)))
+            InfixOp::Add => lhs + rhs,
+            InfixOp::Sub => lhs - rhs,
+            InfixOp::Mul => lhs * rhs,
+            InfixOp::Div => lhs / rhs
         };
         operands.push(Operand::Num(result));
         Ok(())
