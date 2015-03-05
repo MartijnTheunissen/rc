@@ -125,7 +125,8 @@ impl Calc {
                     match operands.pop() {
                         Some(op) => match op {
                             Operand::Var(v) => assign_to = Some(v),
-                            _ => panic!("FUCK")
+                            Operand::Num(_) => return Err(Error::Other(
+                            "Can't assign to a number, silly!".to_string()))
                         },
                         _ => panic!("FUCK")
                     }
