@@ -97,7 +97,13 @@ impl Calc {
                         Operator::LParen => { operators.push(Operator::LParen)
                         },
                         Operator::RParen => {
-                            self.do_op(&mut operands, &mut operators);
+                            while let Some(prev_op) = operators.pop() {
+                                operators.push(prev_op);
+                                self.do_op(&mut operands, &mut operators);
+                                if prev_op == Operator::LParen {
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
