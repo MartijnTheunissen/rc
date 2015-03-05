@@ -79,16 +79,18 @@ impl Calc {
                 Token::Operator(o) => {
                     match o {
                         Operator::Infix(infix) => {
-                            if let Some(prev_op) = operators.pop() {
+                            while let Some(prev_op) = operators.pop() {
                                 // Put it back
                                 operators.push(prev_op);
                                 match prev_op {
                                     Operator::Infix(prev_infix) => {
                                         if prev_infix.precedence() >= infix.precedence() {
                                             self.do_op(&mut operands, &mut operators);
+                                        } else {
+                                            break;
                                         }
                                     }
-                                    Operator::LParen => {}
+                                    Operator::LParen => {break;}
                                     _ => panic!("Unexpected!")
                                 }
                             }
