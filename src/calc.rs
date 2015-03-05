@@ -128,7 +128,8 @@ impl Calc {
                             Operand::Num(_) => return Err(Error::Other(
                             "Can't assign to a number, silly!".to_string()))
                         },
-                        _ => panic!("FUCK")
+                        None => return Err(Error::Other(
+                        "Can't assign to nothing".to_string()))
                     }
                 }
             }
