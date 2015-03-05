@@ -22,6 +22,9 @@ fn main() {
 
     for line_result in reader.lock().lines() {
         let text = line_result.unwrap();
-        calc.eval_print(text.trim());
+        let text = text.trim();
+        if !text.is_empty() {
+            calc.eval_print(text);
+        }
     }
 }
