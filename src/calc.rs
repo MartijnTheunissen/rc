@@ -181,6 +181,7 @@ mod test {
 
     test!(test_simple_arith_2, "2 + 2", 4.);
     test!(test_simple_arith_n, "9 - 6 - 1", 2.);
+    test!(test_simple_arith_sub_mul_add, "24 - 2 * 70 + 2", -114.);
     test!(test_precedence, "9 + 4 * 2", 17.);
     test!(test_simple_parens, "3 * (2 + 4)", 18.);
     test!(test_nested_parens, "3 + 4 + 2 * 7 * (3 + (2 + 4) * 2)", 217.);
