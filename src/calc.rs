@@ -12,6 +12,8 @@ enum Error {
     UndefinedVariable(String),
     SyntaxError(tokenizer::Error),
     UnexpectedToken(Token),
+    MissingLhs,
+    MissingRhs,
     Other(String)
 }
 
@@ -36,18 +38,28 @@ impl Calc {
         }
     }
 
-    fn do_op(&self, operands: &mut Vec<Operand>, operators: &mut Vec<Operator>) {
-        let op = operators.pop().unwrap();
-        if op == Operator::LParen {
-            return;
-        }
-        let rhs = match operands.pop().unwrap() {
-            Operand::Num(n) => n,
-            Operand::Var(v) => self.lookup_var(v).unwrap()
+    fn do_op(&self, operands: &mut Vec<Operand>,
+             operators: &mut Vec<Operator>) -> Result<(), Error> {
+        let op = match operators.pop() {
+            Some(op) => op,
+            None => return Err(Error::Other("Missing operator?".to_string()))
         };
-        let lhs = match operands.pop().unwrap() {
-            Operand::Num(n) => n,
-            Operand::Var(v) => self.lookup_var(v).unwrap()
+        if op == Operator::LParen {
+            return Ok(());
+        }
+        let rhs = match operands.pop() {
+            Some(operand) => match operand {
+                Operand::Num(n) => n,
+                Operand::Var(v) => try!(self.lookup_var(v))
+            },
+            None => return Err(Error::MissingRhs)
+        };
+        let lhs = match operands.pop() {
+            Some(operand) => match operand {
+                Operand::Num(n) => n,
+                Operand::Var(v) => try!(self.lookup_var(v))
+            },
+            None => return Err(Error::MissingLhs)
         };
         let result = match op {
             Operator::Infix(infix) => {
@@ -59,9 +71,10 @@ impl Calc {
                     InfixOp::Div => lhs / rhs
                 }
             }
-            _ => panic!("Unexpected")
+            o => return Err(Error::UnexpectedToken(Token::Operator(o)))
         };
         operands.push(Operand::Num(result));
+        Ok(())
     }
 
     fn eval_tokens<T>(&mut self, tokens: T) -> Result<NumType, Error>
@@ -85,7 +98,7 @@ impl Calc {
                                 match prev_op {
                                     Operator::Infix(prev_infix) => {
                                         if prev_infix.precedence() >= infix.precedence() {
-                                            self.do_op(&mut operands, &mut operators);
+                                            try!(self.do_op(&mut operands, &mut operators));
                                         } else {
                                             break;
                                         }
@@ -101,7 +114,7 @@ impl Calc {
                         Operator::RParen => {
                             while let Some(prev_op) = operators.pop() {
                                 operators.push(prev_op);
-                                self.do_op(&mut operands, &mut operators);
+                                try!(self.do_op(&mut operands, &mut operators));
                                 if prev_op == Operator::LParen {
                                     break;
                                 }
@@ -123,7 +136,7 @@ impl Calc {
         }
 
         while !operators.is_empty() {
-            self.do_op(&mut operands, &mut operators);
+            try!(self.do_op(&mut operands, &mut operators));
         }
 
         // The last remaining operand in the stack is the answer
