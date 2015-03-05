@@ -175,7 +175,6 @@ mod test {
     #[test]
     fn test_assignment() {
         let mut calc = Calc::new();
-        // over_9000 = 9000 + 1
         assert_eq!(calc.eval("over_9000 = 9000 + 1"), Ok(9001.));
         assert_eq!(calc.eval("over_9000"), Ok(9001.));
     }
