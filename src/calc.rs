@@ -102,7 +102,8 @@ impl Calc {
                                         }
                                     }
                                     Operator::LParen => {break;}
-                                    _ => panic!("Unexpected!")
+                                    op => return Err(Error::UnexpectedToken(
+                                                     Token::Operator(op)))
                                 }
                             }
                             operators.push(Operator::Infix(infix));
