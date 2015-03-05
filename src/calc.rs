@@ -179,4 +179,8 @@ mod test {
     test!(test_precedence, "9 + 4 * 2", 17.);
     test!(test_simple_parens, "3 * (2 + 4)", 18.);
     test!(test_nested_parens, "3 + 4 + 2 * 7 * (3 + (2 + 4) * 2)", 217.);
+    test!(ultimate_challenge, "3250 * (245 + 6) - (24 - 3 + 4 - 24 * 3 + -24 \
+                               - 2 * (64 + (5 + (3 + 4 * 7 - (24 - 4 - 2 + 1 \
+                               * 3) + 2 + 4) - 3 * 6) + 6) + 2) + 4 * 2",
+                               815973.);
 }
