@@ -2,6 +2,7 @@ use tokenizer;
 use NumType;
 use std::collections::HashMap;
 use tokens::{Token, Operand, Operator, InfixOp};
+use std::fmt;
 
 pub struct Calc {
     vars: HashMap<String, NumType>
@@ -17,6 +18,26 @@ enum Error {
     Other(String)
 }
 
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        use self::Error::*;
+        match *self {
+            UndefinedVariable(ref var) => {
+                write!(f, "Undefined variable `{}`.", var)
+            },
+            SyntaxError(ref err) => write!(f, "{}", err),
+            UnexpectedToken(ref tok) => write!(f, "Unexpected `{}`", tok),
+            MissingLhs(ref op) => {
+                write!(f, "Missing left hand side argument for {} operator", op)
+            }
+            MissingRhs(ref op) => {
+                write!(f, "Missing right hand side argument for {} operator", op)
+            }
+            Other(ref s) => write!(f, "{}", s)
+        }
+    }
+}
+
 impl Calc {
     pub fn new() -> Calc {
         Calc {
@@ -27,7 +48,7 @@ impl Calc {
     pub fn eval_print(&mut self, input: &str) {
         match self.eval(input) {
             Ok(result) => println!("= {}", result),
-            Err(e) => println!("{:?}", e)
+            Err(e) => println!("Error: {}", e)
         }
     }
 

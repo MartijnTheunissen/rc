@@ -1,4 +1,5 @@
 use NumType;
+use std::fmt;
 
 #[derive(Debug, PartialEq, Copy)]
 pub enum InfixOp {
@@ -15,6 +16,19 @@ impl InfixOp {
             Add | Sub => 1,
             Div | Mul => 2
         }
+    }
+}
+
+impl fmt::Display for InfixOp {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        use self::InfixOp::*;
+        let c = match *self {
+            Add => '+',
+            Sub => '-',
+            Div => '/',
+            Mul => '*'
+        };
+        write!(f, "{}", c)
     }
 }
 
@@ -36,4 +50,12 @@ pub enum Token {
     Operator(Operator),
     Operand(Operand),
     Assign
+}
+
+impl fmt::Display for Token {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        match *self {
+            _ => unimplemented!()
+        }
+    }
 }
