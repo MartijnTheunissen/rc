@@ -174,6 +174,8 @@ impl Calc {
             if let Some(ident) = assign_to {
                 self.set_var(ident, num);
             }
+
+            self.set_var("ans".to_string(), num);
         }
 
         result
