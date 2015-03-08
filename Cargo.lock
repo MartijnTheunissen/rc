@@ -8,7 +8,7 @@ dependencies = [
 [[package]]
 name = "glib-2_0-sys"
 version = "0.0.6"
-source = "git+https://github.com/gi-rust/glib-sys.git#f338819131b29a602c6bf4767fe107d9bd8111b9"
+source = "git+https://github.com/crumblingstatue/glib-sys.git?branch=integ#c555fd452ecf6a3cc52e08585df797e6a57612a3"
 dependencies = [
  "pkg-config 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -16,18 +16,18 @@ dependencies = [
 [[package]]
 name = "libnotify"
 version = "0.0.1"
-source = "git+https://github.com/crumblingstatue/rust-libnotify.git#68b3d02ba273d1970f23ccbb5d2a8f7ff37dcf05"
+source = "git+https://github.com/crumblingstatue/rust-libnotify.git#23951a87a8d005e6a71a5cfb86acecb792889600"
 dependencies = [
- "glib-2_0-sys 0.0.6 (git+https://github.com/gi-rust/glib-sys.git)",
+ "glib-2_0-sys 0.0.6 (git+https://github.com/crumblingstatue/glib-sys.git?branch=integ)",
  "libnotify-sys 0.0.1 (git+https://github.com/crumblingstatue/rust-libnotify-sys.git)",
 ]
 
 [[package]]
 name = "libnotify-sys"
 version = "0.0.1"
-source = "git+https://github.com/crumblingstatue/rust-libnotify-sys.git#a0e254d7be4d55723e73bcc56083ea7854742ba0"
+source = "git+https://github.com/crumblingstatue/rust-libnotify-sys.git#b7063061fcec67eabdc7ac566aeaa5dbd8b983a9"
 dependencies = [
- "glib-2_0-sys 0.0.6 (git+https://github.com/gi-rust/glib-sys.git)",
+ "glib-2_0-sys 0.0.6 (git+https://github.com/crumblingstatue/glib-sys.git?branch=integ)",
  "pkg-config 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
