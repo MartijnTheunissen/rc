@@ -33,12 +33,15 @@ fn main() {
         std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
 
     if !input.is_empty() {
-        let result = calc.eval(&input);
-        let string = match result {
-            Ok(num) => format!("{}", num),
-            Err(e) => format!("{}", e)
-        };
-        show_output(&string);
+        let exprs = input.split(';');
+        for expr in exprs {
+            let result = calc.eval(&expr);
+            let string = match result {
+                Ok(num) => format!("{}", num),
+                Err(e) => format!("{}", e)
+            };
+            show_output(&string);
+        }
         return;
     }
 
@@ -46,7 +49,10 @@ fn main() {
         let text = line_result.unwrap();
         let text = text.trim();
         if !text.is_empty() {
-            calc.eval_print(text);
+            let expressions = text.split(';');
+            for expr in expressions {
+                calc.eval_print(expr);
+            }
         }
     }
 }
