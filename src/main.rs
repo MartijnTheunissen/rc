@@ -9,18 +9,18 @@ mod tokenizer;
 use std::io::{self, BufReadExt};
 
 #[cfg(not(unix))]
-fn show_output(string: &str) {
+fn show_output(_expr: &str, string: &str) {
     println!("{}", string);
 }
 
 #[cfg(unix)]
-fn show_output(string: &str) {
+fn show_output(expr: &str, string: &str) {
     if std::old_io::stdio::stdout_raw().isatty() {
         println!("{}", string);
     } else {
         extern crate libnotify;
         let notify = libnotify::Context::new("rc").unwrap();
-        let n = notify.new_notification(&format!("= {}", string),
+        let n = notify.new_notification(&format!("{} = {}", expr, string),
                                         None, None).unwrap();
         n.show().unwrap();
     }
@@ -41,7 +41,7 @@ fn main() {
                 Ok(num) => format!("{}", num),
                 Err(e) => format!("{}", e)
             };
-            show_output(&string);
+            show_output(expr, &string);
         }
         return;
     }
