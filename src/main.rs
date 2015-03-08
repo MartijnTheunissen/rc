@@ -1,4 +1,4 @@
-#![feature(io)]
+#![feature(io, old_io)]
 
 type NumType = f64;
 
@@ -8,6 +8,23 @@ mod tokenizer;
 
 use std::io::{self, BufReadExt};
 
+#[cfg(not(unix))]
+fn show_output(string: &str) {
+    println!("{}", string);
+}
+
+#[cfg(unix)]
+fn show_output(string: &str) {
+    if std::old_io::stdio::stdout_raw().isatty() {
+        println!("{}", string);
+    } else {
+        extern crate libnotify;
+        let notify = libnotify::Context::new("rc").unwrap();
+        let n = notify.new_notification("=", string).unwrap();
+        n.show().unwrap();
+    }
+}
+
 fn main() {
     let reader = io::stdin();
     let mut calc = calc::Calc::new();
@@ -16,7 +33,12 @@ fn main() {
         std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
 
     if !input.is_empty() {
-        calc.eval_print(&input);
+        let result = calc.eval(&input);
+        let string = match result {
+            Ok(num) => format!("{}", num),
+            Err(e) => format!("{}", e)
+        };
+        show_output(&string);
         return;
     }
 
