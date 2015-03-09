@@ -2,32 +2,42 @@
 name = "rc"
 version = "0.0.1"
 dependencies = [
- "libnotify 0.0.1 (git+https://github.com/crumblingstatue/rust-libnotify.git)",
+ "libnotify 0.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "glib-2_0-sys"
-version = "0.0.6"
-source = "git+https://github.com/crumblingstatue/glib-sys.git?branch=integ#c555fd452ecf6a3cc52e08585df797e6a57612a3"
+version = "0.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "pkg-config 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
-name = "libnotify"
-version = "0.0.1"
-source = "git+https://github.com/crumblingstatue/rust-libnotify.git#23951a87a8d005e6a71a5cfb86acecb792889600"
+name = "gobject-2_0-sys"
+version = "0.0.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "glib-2_0-sys 0.0.6 (git+https://github.com/crumblingstatue/glib-sys.git?branch=integ)",
- "libnotify-sys 0.0.1 (git+https://github.com/crumblingstatue/rust-libnotify-sys.git)",
+ "glib-2_0-sys 0.0.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "pkg-config 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "libnotify"
+version = "0.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "glib-2_0-sys 0.0.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libnotify-sys 0.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "libnotify-sys"
-version = "0.0.1"
-source = "git+https://github.com/crumblingstatue/rust-libnotify-sys.git#b7063061fcec67eabdc7ac566aeaa5dbd8b983a9"
+version = "0.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "glib-2_0-sys 0.0.6 (git+https://github.com/crumblingstatue/glib-sys.git?branch=integ)",
+ "glib-2_0-sys 0.0.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "gobject-2_0-sys 0.0.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
