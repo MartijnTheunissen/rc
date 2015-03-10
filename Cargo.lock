@@ -3,6 +3,7 @@ name = "rc"
 version = "0.0.1"
 dependencies = [
  "libnotify 0.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "readline 0.0.7 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -44,5 +45,18 @@ dependencies = [
 [[package]]
 name = "pkg-config"
 version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "readline"
+version = "0.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "readline-sys 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "readline-sys"
+version = "0.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 

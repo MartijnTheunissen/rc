@@ -1,12 +1,12 @@
-#![feature(io, old_io)]
+#![feature(old_io)]
+
+extern crate readline;
 
 type NumType = f64;
 
 mod calc;
 mod tokens;
 mod tokenizer;
-
-use std::io::{self, BufReadExt};
 
 #[cfg(not(unix))]
 fn show_output(_expr: &str, string: &str) {
@@ -27,7 +27,6 @@ fn show_output(expr: &str, string: &str) {
 }
 
 fn main() {
-    let reader = io::stdin();
     let mut calc = calc::Calc::new();
 
     let input =
@@ -46,14 +45,14 @@ fn main() {
         return;
     }
 
-    for line_result in reader.lock().lines() {
-        let text = line_result.unwrap();
-        let text = text.trim();
+    while let Some(line) = readline::readline("> ") {
+        let text = line.trim();
         if !text.is_empty() {
             let expressions = text.split(';');
             for expr in expressions {
                 calc.eval_print(expr);
             }
+            readline::add_history(text);
         }
     }
 }

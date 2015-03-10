@@ -6,3 +6,4 @@ authors = ["Mika Attila <radiantstatue@gmail.com>"]
 
 [dependencies]
 libnotify = "*"
+readline = "0.0.7"
