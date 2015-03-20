@@ -60,7 +60,7 @@ fn main() {
                     readline::add_history(&line_bytes);
                 }
             },
-            Err(e) => {
+            Err(_) => {
                 // Just assume it's EOF, and break. What a pain.
                 break;
             }
