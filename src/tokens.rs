@@ -1,7 +1,7 @@
 use NumType;
 use std::fmt;
 
-#[derive(Debug, PartialEq, Copy)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum InfixOp {
     Add,
     Sub,
@@ -32,7 +32,7 @@ impl fmt::Display for InfixOp {
     }
 }
 
-#[derive(Debug, PartialEq, Copy)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Operator {
     Infix(InfixOp),
     LParen,

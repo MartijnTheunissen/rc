@@ -1,8 +1,7 @@
-#![feature(old_io)]
-
 use std::ffi::CString;
 
 extern crate readline;
+extern crate libc;
 
 type NumType = f64;
 
@@ -17,7 +16,7 @@ fn show_output(_expr: &str, string: &str) {
 
 #[cfg(unix)]
 fn show_output(expr: &str, string: &str) {
-    if std::old_io::stdio::stdout_raw().isatty() {
+    if unsafe { libc::isatty(libc::STDOUT_FILENO) } == 1 {
         println!("{}", string);
     } else {
         extern crate libnotify;
