@@ -51,11 +51,3 @@ pub enum Token {
     Operand(Operand),
     Assign,
 }
-
-impl fmt::Display for Token {
-    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        match *self {
-            _ => unimplemented!(),
-        }
-    }
-}
