@@ -6,7 +6,7 @@ pub enum InfixOp {
     Add,
     Sub,
     Div,
-    Mul
+    Mul,
 }
 
 impl InfixOp {
@@ -14,7 +14,7 @@ impl InfixOp {
         use self::InfixOp::*;
         match *self {
             Add | Sub => 1,
-            Div | Mul => 2
+            Div | Mul => 2,
         }
     }
 }
@@ -26,7 +26,7 @@ impl fmt::Display for InfixOp {
             Add => '+',
             Sub => '-',
             Div => '/',
-            Mul => '*'
+            Mul => '*',
         };
         write!(f, "{}", c)
     }
@@ -36,26 +36,26 @@ impl fmt::Display for InfixOp {
 pub enum Operator {
     Infix(InfixOp),
     LParen,
-    RParen
+    RParen,
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Operand {
     Num(NumType),
-    Var(String)
+    Var(String),
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Token {
     Operator(Operator),
     Operand(Operand),
-    Assign
+    Assign,
 }
 
 impl fmt::Display for Token {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         match *self {
-            _ => unimplemented!()
+            _ => unimplemented!(),
         }
     }
 }

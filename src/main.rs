@@ -21,8 +21,8 @@ fn show_output(expr: &str, string: &str) {
     } else {
         extern crate libnotify;
         let notify = libnotify::Context::new("rc").unwrap();
-        let n = notify.new_notification(&format!("{} = {}", expr, string),
-                                        None, None).unwrap();
+        let n = notify.new_notification(&format!("{} = {}", expr, string), None, None)
+                      .unwrap();
         n.show().unwrap();
     }
 }
@@ -30,8 +30,7 @@ fn show_output(expr: &str, string: &str) {
 fn main() {
     let mut calc = calc::Calc::new();
 
-    let input =
-        std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
+    let input = std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
 
     if !input.is_empty() {
         let exprs = input.split(';');
@@ -39,7 +38,7 @@ fn main() {
             let result = calc.eval(&expr);
             let string = match result {
                 Ok(num) => format!("{}", num),
-                Err(e) => format!("{}", e)
+                Err(e) => format!("{}", e),
             };
             show_output(expr, &string);
         }
@@ -58,7 +57,7 @@ fn main() {
                     }
                     readline::add_history(&line_bytes);
                 }
-            },
+            }
             Err(_) => {
                 // Just assume it's EOF, and break. What a pain.
                 break;

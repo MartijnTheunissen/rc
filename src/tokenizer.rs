@@ -1,12 +1,12 @@
 use NumType;
 use std::str::FromStr;
-use tokens::{Token};
+use tokens::Token;
 use std::fmt;
 
 #[derive(Debug, PartialEq)]
 pub enum Error {
     UnexpectedChar(char),
-    NumParseError(<NumType as FromStr>::Err)
+    NumParseError(<NumType as FromStr>::Err),
 }
 
 impl fmt::Display for Error {
@@ -15,7 +15,7 @@ impl fmt::Display for Error {
 
         match *self {
             UnexpectedChar(c) => write!(f, "Unexpected character: '{}'", c),
-            NumParseError(ref err) => write!(f, "Invalid number: {}", err)
+            NumParseError(ref err) => write!(f, "Invalid number: {}", err),
         }
     }
 }
@@ -23,11 +23,12 @@ impl fmt::Display for Error {
 use std::iter::Peekable;
 
 fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
-        where T: Iterator<Item = char> {
+    where T: Iterator<Item = char>
+{
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
         match c {
-            ' ' | ')' | '+' | '-'| '*' | '/' | '=' => {
+            ' ' | ')' | '+' | '-' | '*' | '/' | '=' => {
                 break;
             }
             c => {
@@ -38,12 +39,13 @@ fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
     }
     match string.parse() {
         Ok(num) => Ok(num),
-        Err(e) => Err(Error::NumParseError(e))
+        Err(e) => Err(Error::NumParseError(e)),
     }
 }
 
 fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
-        where T: Iterator<Item = char> {
+    where T: Iterator<Item = char>
+{
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
         match c {
@@ -54,14 +56,15 @@ fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
                 string.push(c);
                 chars.next();
             }
-            c => return Err(Error::UnexpectedChar(c))
+            c => return Err(Error::UnexpectedChar(c)),
         }
     }
     Ok(string)
 }
 
 pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
-        where T: Iterator<Item = char> {
+    where T: Iterator<Item = char>
+{
     let mut tokens = Vec::new();
     let mut chars = chars.peekable();
 
@@ -89,20 +92,20 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                         ' ' => {
                             tokens.push(Operator(Infix(Sub)));
                         }
-                        c => return Err(Error::UnexpectedChar(c))
+                        c => return Err(Error::UnexpectedChar(c)),
                     },
                     None => {
                         tokens.push(Operator(Infix(Sub)));
                     }
                 }
-            },
+            }
             '/' => {
                 tokens.push(Operator(Infix(Div)));
                 chars.next();
             }
             '*' => {
-                 tokens.push(Operator(Infix(Mul)));
-                 chars.next();
+                tokens.push(Operator(Infix(Mul)));
+                chars.next();
             }
             '(' => {
                 tokens.push(Operator(LParen));
@@ -119,11 +122,13 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
             '0' ... '9' => {
                 tokens.push(Operand(Num(try!(get_num(&mut chars)))));
             }
-            ' ' => { chars.next(); }
+            ' ' => {
+                chars.next();
+            }
             c if c == '_' || c.is_alphabetic() => {
                 tokens.push(Operand(Var(try!(get_ident(&mut chars)))));
             }
-            c => return Err(Error::UnexpectedChar(c))
+            c => return Err(Error::UnexpectedChar(c)),
         }
     }
 

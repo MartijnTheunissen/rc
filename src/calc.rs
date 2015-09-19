@@ -5,7 +5,7 @@ use tokens::{Token, Operand, Operator, InfixOp};
 use std::fmt;
 
 pub struct Calc {
-    vars: HashMap<String, NumType>
+    vars: HashMap<String, NumType>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -15,7 +15,7 @@ enum Error {
     UnexpectedToken(Token),
     MissingLhs(InfixOp),
     MissingRhs(InfixOp),
-    Other(String)
+    Other(String),
 }
 
 impl fmt::Display for Error {
@@ -24,7 +24,7 @@ impl fmt::Display for Error {
         match *self {
             UndefinedVariable(ref var) => {
                 write!(f, "Undefined variable `{}`.", var)
-            },
+            }
             SyntaxError(ref err) => write!(f, "{}", err),
             UnexpectedToken(ref tok) => write!(f, "Unexpected `{}`", tok),
             MissingLhs(ref op) => {
@@ -33,71 +33,72 @@ impl fmt::Display for Error {
             MissingRhs(ref op) => {
                 write!(f, "Missing right hand side argument for {} operator", op)
             }
-            Other(ref s) => write!(f, "{}", s)
+            Other(ref s) => write!(f, "{}", s),
         }
     }
 }
 
 impl Calc {
     pub fn new() -> Calc {
-        Calc {
-            vars: HashMap::new()
-        }
+        Calc { vars: HashMap::new() }
     }
 
     pub fn eval_print(&mut self, input: &str) {
         match self.eval(input) {
             Ok(result) => println!("= {}", result),
-            Err(e) => println!("Error: {}", e)
+            Err(e) => println!("Error: {}", e),
         }
     }
 
     pub fn eval(&mut self, input: &str) -> Result<NumType, Error> {
         match tokenizer::tokenize(input.chars()) {
             Ok(tokens) => self.eval_tokens(tokens.into_iter()),
-            Err(e) => Err(Error::SyntaxError(e))
+            Err(e) => Err(Error::SyntaxError(e)),
         }
     }
 
-    fn do_op(&self, operands: &mut Vec<Operand>,
-             operators: &mut Vec<Operator>) -> Result<(), Error> {
+    fn do_op(&self,
+             operands: &mut Vec<Operand>,
+             operators: &mut Vec<Operator>)
+             -> Result<(), Error> {
         use tokens::InfixOp;
         let op = match operators.pop() {
             Some(op) => op,
-            None => return Err(Error::Other("Missing operator?".to_string()))
+            None => return Err(Error::Other("Missing operator?".to_string())),
         };
         let op = match op {
             Operator::Infix(ifx) => ifx,
             Operator::LParen => return Ok(()),
             Operator::RParen => return Err(Error::UnexpectedToken(
-                                           Token::Operator(Operator::RParen)))
+                                           Token::Operator(Operator::RParen))),
         };
         let rhs = match operands.pop() {
             Some(operand) => match operand {
                 Operand::Num(n) => n,
-                Operand::Var(v) => try!(self.lookup_var(v))
+                Operand::Var(v) => try!(self.lookup_var(v)),
             },
-            None => return Err(Error::MissingRhs(op))
+            None => return Err(Error::MissingRhs(op)),
         };
         let lhs = match operands.pop() {
             Some(operand) => match operand {
                 Operand::Num(n) => n,
-                Operand::Var(v) => try!(self.lookup_var(v))
+                Operand::Var(v) => try!(self.lookup_var(v)),
             },
-            None => return Err(Error::MissingLhs(op))
+            None => return Err(Error::MissingLhs(op)),
         };
         let result = match op {
             InfixOp::Add => lhs + rhs,
             InfixOp::Sub => lhs - rhs,
             InfixOp::Mul => lhs * rhs,
-            InfixOp::Div => lhs / rhs
+            InfixOp::Div => lhs / rhs,
         };
         operands.push(Operand::Num(result));
         Ok(())
     }
 
     fn eval_tokens<T>(&mut self, tokens: T) -> Result<NumType, Error>
-       where T: Iterator<Item = Token> {
+        where T: Iterator<Item = Token>
+    {
         let mut operands: Vec<Operand> = Vec::new();
         let mut operators: Vec<Operator> = Vec::new();
         let mut assign_to: Option<String> = None;
@@ -122,15 +123,18 @@ impl Calc {
                                             break;
                                         }
                                     }
-                                    Operator::LParen => {break;}
+                                    Operator::LParen => {
+                                        break;
+                                    }
                                     op => return Err(Error::UnexpectedToken(
-                                                     Token::Operator(op)))
+                                                     Token::Operator(op))),
                                 }
                             }
                             operators.push(Operator::Infix(infix));
-                        },
-                        Operator::LParen => { operators.push(Operator::LParen)
-                        },
+                        }
+                        Operator::LParen => {
+                            operators.push(Operator::LParen)
+                        }
                         Operator::RParen => {
                             while let Some(prev_op) = operators.pop() {
                                 operators.push(prev_op);
@@ -147,10 +151,10 @@ impl Calc {
                         Some(op) => match op {
                             Operand::Var(v) => assign_to = Some(v),
                             Operand::Num(_) => return Err(Error::Other(
-                            "Can't assign to a number, silly!".to_string()))
+                            "Can't assign to a number, silly!".to_string())),
                         },
                         None => return Err(Error::Other(
-                        "Can't assign to nothing".to_string()))
+                        "Can't assign to nothing".to_string())),
                     }
                 }
             }
@@ -165,9 +169,9 @@ impl Calc {
         let result = match operands.pop() {
             Some(tok) => match tok {
                 Operand::Num(n) => Ok(n),
-                Operand::Var(i) => self.lookup_var(i)
+                Operand::Var(i) => self.lookup_var(i),
             },
-            None => Err(Error::Other("No result? (stack empty)".to_string()))
+            None => Err(Error::Other("No result? (stack empty)".to_string())),
         };
 
         if let Ok(num) = result {
@@ -188,7 +192,7 @@ impl Calc {
     fn lookup_var(&self, ident: String) -> Result<NumType, Error> {
         match self.vars.get(&ident) {
             Some(v) => Ok(*v),
-            None => Err(Error::UndefinedVariable(ident))
+            None => Err(Error::UndefinedVariable(ident)),
         }
 
     }
