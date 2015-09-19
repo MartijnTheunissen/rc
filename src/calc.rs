@@ -64,7 +64,7 @@ impl Calc {
         use tokens::InfixOp;
         let op = match operators.pop() {
             Some(op) => op,
-            None => return Err(Error::Other("Missing operator?".to_string())),
+            None => return Err(Error::Other("Missing operator?".into())),
         };
         let op = match op {
             Operator::Infix(ifx) => ifx,
@@ -151,10 +151,10 @@ impl Calc {
                         Some(op) => match op {
                             Operand::Var(v) => assign_to = Some(v),
                             Operand::Num(_) => return Err(Error::Other(
-                            "Can't assign to a number, silly!".to_string())),
+                            "Can't assign to a number, silly!".into())),
                         },
                         None => return Err(Error::Other(
-                        "Can't assign to nothing".to_string())),
+                        "Can't assign to nothing".into())),
                     }
                 }
             }
@@ -171,7 +171,7 @@ impl Calc {
                 Operand::Num(n) => Ok(n),
                 Operand::Var(i) => self.lookup_var(i),
             },
-            None => Err(Error::Other("No result? (stack empty)".to_string())),
+            None => Err(Error::Other("No result? (stack empty)".into())),
         };
 
         if let Ok(num) = result {
@@ -179,7 +179,7 @@ impl Calc {
                 self.set_var(ident, num);
             }
 
-            self.set_var("ans".to_string(), num);
+            self.set_var("ans".into(), num);
         }
 
         result

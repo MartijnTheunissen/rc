@@ -45,23 +45,15 @@ fn main() {
         return;
     }
 
-    loop {
-        match readline::readline_bare(&CString::new("> ").unwrap()) {
-            Ok(line_bytes) => {
-                let line = String::from_utf8_lossy(line_bytes.to_bytes());
-                let text = line.trim();
-                if !text.is_empty() {
-                    let expressions = text.split(';');
-                    for expr in expressions {
-                        calc.eval_print(expr);
-                    }
-                    readline::add_history(&line_bytes);
-                }
+    while let Ok(line_bytes) = readline::readline_bare(&CString::new("> ").unwrap()) {
+        let line = String::from_utf8_lossy(line_bytes.to_bytes());
+        let text = line.trim();
+        if !text.is_empty() {
+            let expressions = text.split(';');
+            for expr in expressions {
+                calc.eval_print(expr);
             }
-            Err(_) => {
-                // Just assume it's EOF, and break. What a pain.
-                break;
-            }
+            readline::add_history(&line_bytes);
         }
     }
 }
