@@ -16,8 +16,7 @@ fn show_output(expr: &str, string: &str) {
     } else {
         extern crate libnotify;
         let notify = libnotify::Context::new("rc").unwrap();
-        let n = notify.new_notification(&format!("{} = {}", expr, string), None, None)
-                      .unwrap();
+        let n = notify.new_notification(&format!("{} = {}", expr, string), None, None).unwrap();
         n.show().unwrap();
     }
 }

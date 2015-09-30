@@ -28,10 +28,14 @@ impl fmt::Display for Error {
             SyntaxError(ref err) => write!(f, "{}", err),
             UnexpectedToken(ref tok) => write!(f, "Unexpected `{:? }`", tok),
             MissingLhs(ref op) => {
-                write!(f, "Missing left hand side argument for {} operator", op)
+                write!(f,
+                       "Missing left hand side argument for {} operator",
+                       op)
             }
             MissingRhs(ref op) => {
-                write!(f, "Missing right hand side argument for {} operator", op)
+                write!(f,
+                       "Missing right hand side argument for {} operator",
+                       op)
             }
             Other(ref s) => write!(f, "{}", s),
         }
@@ -69,8 +73,8 @@ impl Calc {
         let op = match op {
             Operator::Infix(ifx) => ifx,
             Operator::LParen => return Ok(()),
-            Operator::RParen => return Err(Error::UnexpectedToken(
-                                           Token::Operator(Operator::RParen))),
+            Operator::RParen =>
+                return Err(Error::UnexpectedToken(Token::Operator(Operator::RParen))),
         };
         let rhs = match operands.pop() {
             Some(operand) => match operand {
@@ -126,8 +130,7 @@ impl Calc {
                                     Operator::LParen => {
                                         break;
                                     }
-                                    op => return Err(Error::UnexpectedToken(
-                                                     Token::Operator(op))),
+                                    op => return Err(Error::UnexpectedToken(Token::Operator(op))),
                                 }
                             }
                             operators.push(Operator::Infix(infix));
@@ -150,11 +153,10 @@ impl Calc {
                     match operands.pop() {
                         Some(op) => match op {
                             Operand::Var(v) => assign_to = Some(v),
-                            Operand::Num(_) => return Err(Error::Other(
-                            "Can't assign to a number, silly!".into())),
+                            Operand::Num(_) =>
+                                return Err(Error::Other("Can't assign to a number, silly!".into())),
                         },
-                        None => return Err(Error::Other(
-                        "Can't assign to nothing".into())),
+                        None => return Err(Error::Other("Can't assign to nothing".into())),
                     }
                 }
             }
