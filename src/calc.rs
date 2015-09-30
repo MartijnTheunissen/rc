@@ -9,7 +9,7 @@ pub struct Calc {
 }
 
 #[derive(Debug, PartialEq)]
-enum Error {
+pub enum Error {
     UndefinedVariable(String),
     SyntaxError(tokenizer::Error),
     UnexpectedToken(Token),
@@ -26,7 +26,7 @@ impl fmt::Display for Error {
                 write!(f, "Undefined variable `{}`.", var)
             }
             SyntaxError(ref err) => write!(f, "{}", err),
-            UnexpectedToken(ref tok) => write!(f, "Unexpected `{:?}`", tok),
+            UnexpectedToken(ref tok) => write!(f, "Unexpected `{:? }`", tok),
             MissingLhs(ref op) => {
                 write!(f, "Missing left hand side argument for {} operator", op)
             }
