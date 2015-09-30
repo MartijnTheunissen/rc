@@ -2,7 +2,7 @@ use std::ffi::CString;
 
 extern crate readline;
 extern crate libc;
-extern crate rc;
+extern crate librc;
 
 #[cfg(not(unix))]
 fn show_output(_expr: &str, string: &str) {
@@ -23,7 +23,7 @@ fn show_output(expr: &str, string: &str) {
 }
 
 fn main() {
-    let mut calc = rc::calc::Calc::new();
+    let mut calc = librc::calc::Calc::new();
 
     let input = std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
 

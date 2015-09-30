@@ -1,5 +1,4 @@
 [package]
-
 name = "rc"
 version = "0.0.1"
 authors = ["Mika Attila <radiantstatue@gmail.com>"]
@@ -8,3 +7,4 @@ authors = ["Mika Attila <radiantstatue@gmail.com>"]
 libnotify = "*"
 readline = ">=0.0.10"
 libc = "0.1.5"
+librc = { path = "librc" }
