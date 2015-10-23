@@ -85,7 +85,7 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                 match chars.peek() {
                     Some(&c) => match c {
                         // Number with - prefix
-                        '0' ... '9' => {
+                        '0'...'9' => {
                             let n = try!(get_num(&mut chars));
                             tokens.push(Operand(Num(-n)));
                         }
@@ -119,7 +119,7 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                 tokens.push(Assign);
                 chars.next();
             }
-            '0' ... '9' => {
+            '0'...'9' => {
                 tokens.push(Operand(Num(try!(get_num(&mut chars)))));
             }
             ' ' => {

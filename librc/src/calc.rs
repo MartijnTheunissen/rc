@@ -28,14 +28,10 @@ impl fmt::Display for Error {
             SyntaxError(ref err) => write!(f, "{}", err),
             UnexpectedToken(ref tok) => write!(f, "Unexpected `{:? }`", tok),
             MissingLhs(ref op) => {
-                write!(f,
-                       "Missing left hand side argument for {} operator",
-                       op)
+                write!(f, "Missing left hand side argument for {} operator", op)
             }
             MissingRhs(ref op) => {
-                write!(f,
-                       "Missing right hand side argument for {} operator",
-                       op)
+                write!(f, "Missing right hand side argument for {} operator", op)
             }
             Other(ref s) => write!(f, "{}", s),
         }
