@@ -91,6 +91,7 @@ impl Calc {
             InfixOp::Sub => lhs - rhs,
             InfixOp::Mul => lhs * rhs,
             InfixOp::Div => lhs / rhs,
+            InfixOp::Pow => lhs.powf(rhs),
         };
         operands.push(Operand::Num(result));
         Ok(())

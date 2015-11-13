@@ -28,7 +28,7 @@ fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
         match c {
-            ' ' | ')' | '+' | '-' | '*' | '/' | '=' => {
+            ' ' | ')' | '+' | '-' | '*' | '/' | '=' | '^' => {
                 break;
             }
             c => {
@@ -49,7 +49,7 @@ fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
         match c {
-            ' ' | ')' | '+' | '-' | '*' | '/' | '=' => {
+            ' ' | ')' | '+' | '-' | '*' | '/' | '=' | '^' => {
                 break;
             }
             c if c.is_alphanumeric() || c == '_' => {
@@ -105,6 +105,10 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
             }
             '*' => {
                 tokens.push(Operator(Infix(Mul)));
+                chars.next();
+            }
+            '^' => {
+                tokens.push(Operator(Infix(Pow)));
                 chars.next();
             }
             '(' => {

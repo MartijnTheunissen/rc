@@ -7,6 +7,7 @@ pub enum InfixOp {
     Sub,
     Div,
     Mul,
+    Pow,
 }
 
 impl InfixOp {
@@ -14,7 +15,7 @@ impl InfixOp {
         use self::InfixOp::*;
         match *self {
             Add | Sub => 1,
-            Div | Mul => 2,
+            Div | Mul | Pow => 2,
         }
     }
 }
@@ -27,6 +28,7 @@ impl fmt::Display for InfixOp {
             Sub => '-',
             Div => '/',
             Mul => '*',
+            Pow => '^',
         };
         write!(f, "{}", c)
     }
