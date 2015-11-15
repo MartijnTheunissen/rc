@@ -22,19 +22,23 @@ impl fmt::Display for Error {
 
 use std::iter::Peekable;
 
+fn is_separator(c: char) -> bool {
+    match c {
+        ' ' | ')' | '+' | '-' | '*' | '/' | '=' | '^' => true,
+        _ => false,
+    }
+}
+
 fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
     where T: Iterator<Item = char>
 {
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
-        match c {
-            ' ' | ')' | '+' | '-' | '*' | '/' | '=' | '^' => {
-                break;
-            }
-            c => {
-                string.push(c);
-                chars.next();
-            }
+        if is_separator(c) {
+            break;
+        } else {
+            string.push(c);
+            chars.next();
         }
     }
     match string.parse() {
@@ -48,15 +52,13 @@ fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
 {
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
-        match c {
-            ' ' | ')' | '+' | '-' | '*' | '/' | '=' | '^' => {
-                break;
-            }
-            c if c.is_alphanumeric() || c == '_' => {
-                string.push(c);
-                chars.next();
-            }
-            c => return Err(Error::UnexpectedChar(c)),
+        if is_separator(c) {
+            break;
+        } else if c.is_alphanumeric() || c == '_' {
+            string.push(c);
+            chars.next();
+        } else {
+            return Err(Error::UnexpectedChar(c));
         }
     }
     Ok(string)
