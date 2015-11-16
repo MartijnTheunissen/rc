@@ -24,7 +24,8 @@ use std::iter::Peekable;
 
 fn is_separator(c: char) -> bool {
     match c {
-        ' ' | ')' | '+' | '-' | '*' | '/' | '=' | '^' => true,
+        ' ' | ')' | '=' => true,
+        c if ::tokens::InfixOp::from_char(c).is_some() => true,
         _ => false,
     }
 }
@@ -77,10 +78,6 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
         use tokens::InfixOp::*;
 
         match c {
-            '+' => {
-                tokens.push(Operator(Infix(Add)));
-                chars.next();
-            }
             // Either an infix - or a number with - prefix
             '-' => {
                 chars.next();
@@ -100,18 +97,6 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
                         tokens.push(Operator(Infix(Sub)));
                     }
                 }
-            }
-            '/' => {
-                tokens.push(Operator(Infix(Div)));
-                chars.next();
-            }
-            '*' => {
-                tokens.push(Operator(Infix(Mul)));
-                chars.next();
-            }
-            '^' => {
-                tokens.push(Operator(Infix(Pow)));
-                chars.next();
             }
             '(' => {
                 tokens.push(Operator(LParen));
@@ -134,7 +119,14 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
             c if c == '_' || c.is_alphabetic() => {
                 tokens.push(Operand(Var(try!(get_ident(&mut chars)))));
             }
-            c => return Err(Error::UnexpectedChar(c)),
+            c => {
+                if let Some(tok) = ::tokens::InfixOp::from_char(c) {
+                    tokens.push(Operator(Infix(tok)));
+                    chars.next();
+                } else {
+                    return Err(Error::UnexpectedChar(c));
+                }
+            }
         }
     }
 

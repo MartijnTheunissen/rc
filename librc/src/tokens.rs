@@ -11,6 +11,33 @@ pub enum InfixOp {
 }
 
 impl InfixOp {
+    pub fn from_char(c: char) -> Option<InfixOp> {
+        use self::InfixOp::*;
+        Some(match c {
+            '+' => Add,
+            '-' => Sub,
+            '/' => Div,
+            '*' => Mul,
+            '^' => Pow,
+            _ => return None,
+        })
+    }
+}
+
+impl Into<char> for InfixOp {
+    fn into(self) -> char {
+        use self::InfixOp::*;
+        match self {
+            Add => '+',
+            Sub => '-',
+            Div => '/',
+            Mul => '*',
+            Pow => '^',
+        }
+    }
+}
+
+impl InfixOp {
     pub fn precedence(&self) -> u8 {
         use self::InfixOp::*;
         match *self {
@@ -22,15 +49,7 @@ impl InfixOp {
 
 impl fmt::Display for InfixOp {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
-        use self::InfixOp::*;
-        let c = match *self {
-            Add => '+',
-            Sub => '-',
-            Div => '/',
-            Mul => '*',
-            Pow => '^',
-        };
-        write!(f, "{}", c)
+        write!(f, "{}", Into::<char>::into(*self))
     }
 }
 
