@@ -82,17 +82,19 @@ pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
             '-' => {
                 chars.next();
                 match chars.peek() {
-                    Some(&c) => match c {
-                        // Number with - prefix
-                        '0'...'9' => {
-                            let n = try!(get_num(&mut chars));
-                            tokens.push(Operand(Num(-n)));
+                    Some(&c) => {
+                        match c {
+                            // Number with - prefix
+                            '0'...'9' => {
+                                let n = try!(get_num(&mut chars));
+                                tokens.push(Operand(Num(-n)));
+                            }
+                            ' ' => {
+                                tokens.push(Operator(Infix(Sub)));
+                            }
+                            c => return Err(Error::UnexpectedChar(c)),
                         }
-                        ' ' => {
-                            tokens.push(Operator(Infix(Sub)));
-                        }
-                        c => return Err(Error::UnexpectedChar(c)),
-                    },
+                    }
                     None => {
                         tokens.push(Operator(Infix(Sub)));
                     }
