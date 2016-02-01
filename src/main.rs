@@ -4,12 +4,6 @@ extern crate readline;
 extern crate librc;
 extern crate atty;
 
-#[cfg(not(unix))]
-fn show_output(_expr: &str, string: &str) {
-    println!("{}", string);
-}
-
-#[cfg(unix)]
 fn show_output(expr: &str, string: &str) {
     if atty::is() {
         println!("{}", string);
