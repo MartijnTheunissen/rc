@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = ["Mika Attila <radiantstatue@gmail.com>"]
 
 [dependencies]
-libnotify = "*"
-readline = ">=0.0.11"
-libc = "0.2.1"
+libnotify = "0.3.0"
+readline = "0.0.11"
 librc = { path = "librc" }
+atty = "0.1.2"

@@ -1,8 +1,8 @@
 use std::ffi::CString;
 
 extern crate readline;
-extern crate libc;
 extern crate librc;
+extern crate atty;
 
 #[cfg(not(unix))]
 fn show_output(_expr: &str, string: &str) {
@@ -11,7 +11,7 @@ fn show_output(_expr: &str, string: &str) {
 
 #[cfg(unix)]
 fn show_output(expr: &str, string: &str) {
-    if unsafe { libc::isatty(libc::STDOUT_FILENO) } == 1 {
+    if atty::is() {
         println!("{}", string);
     } else {
         extern crate libnotify;
