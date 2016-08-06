@@ -8,3 +8,6 @@ libnotify = "0.3.0"
 readline = "0.0.11"
 librc = { path = "librc" }
 atty = "0.1.2"
+
+[workspace]
+members = ["librc"]
