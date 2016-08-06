@@ -23,7 +23,7 @@ fn main() {
     if !input.is_empty() {
         let exprs = input.split(';');
         for expr in exprs {
-            let result = calc.eval(&expr);
+            let result = calc.eval(expr);
             let string = match result {
                 Ok(num) => format!("{}", num),
                 Err(e) => format!("{}", e),
