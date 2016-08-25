@@ -1,8 +1,8 @@
-use std::ffi::CString;
-
-extern crate readline;
+extern crate linefeed;
 extern crate librc;
 extern crate atty;
+
+use linefeed::Reader;
 
 fn show_output(expr: &str, string: &str) {
     if atty::is() {
@@ -33,15 +33,28 @@ fn main() {
         return;
     }
 
-    while let Ok(line_bytes) = readline::readline_bare(&CString::new("> ").unwrap()) {
-        let line = String::from_utf8_lossy(line_bytes.to_bytes());
-        let text = line.trim();
-        if !text.is_empty() {
-            let expressions = text.split(';');
-            for expr in expressions {
-                calc.eval_print(expr);
+    let mut reader = Reader::new("rc").unwrap();
+    reader.set_prompt("> ");
+
+    loop {
+        match reader.read_line() {
+            Ok(Some(line)) => {
+                let text = line.trim();
+                if !text.is_empty() {
+                    let expressions = text.split(';');
+                    for expr in expressions {
+                        calc.eval_print(expr);
+                    }
+                    reader.add_history(text.into());
+                }
             }
-            readline::add_history(&line_bytes);
+            Ok(None) => break,
+            Err(e) => {
+                match e.kind() {
+                    std::io::ErrorKind::Interrupted => break,
+                    _ => panic!("I/O error: {}", e),
+                }
+            }
         }
     }
 }
