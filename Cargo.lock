@@ -5,7 +5,7 @@ dependencies = [
  "atty 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "libnotify 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "librc 0.1.0",
- "linefeed 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "linefeed 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -14,7 +14,7 @@ version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "winapi 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -34,7 +34,7 @@ version = "0.46.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "gtypes 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -53,7 +53,7 @@ name = "gtypes"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "libc 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -67,7 +67,7 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.15"
+version = "0.2.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -88,7 +88,7 @@ dependencies = [
  "glib-2-0-sys 0.46.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "gobject-2-0-sys 0.46.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "gtypes 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "pkg-config 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -98,11 +98,11 @@ version = "0.1.0"
 
 [[package]]
 name = "linefeed"
-version = "0.1.1"
+version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "nix 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "ole32-sys 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "shell32-sys 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -116,7 +116,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bitflags 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "cfg-if 0.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "libc 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "rustc_version 0.1.7 (registry+https://github.com/rust-lang/crates.io-index)",
  "semver 0.1.20 (registry+https://github.com/rust-lang/crates.io-index)",
  "void 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -181,10 +181,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum gobject-2-0-sys 0.46.4 (registry+https://github.com/rust-lang/crates.io-index)" = "d6daee09e648bd33547175898cffc892b46f6eaaaf3ae0e104a682f2b728b9c4"
 "checksum gtypes 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c8852d77575edf1670e115f3144950fc78754cef78ef0d8453e1e62bb0ec3c41"
 "checksum kernel32-sys 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7507624b29483431c0ba2d82aece8ca6cdba9382bff4ddd0f7490560c056098d"
-"checksum libc 0.2.15 (registry+https://github.com/rust-lang/crates.io-index)" = "23e3757828fa702a20072c37ff47938e9dd331b92fac6e223d26d4b7a55f7ee2"
+"checksum libc 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)" = "9e030dc72013ed68994d1b2cbf36a94dd0e58418ba949c4b0db7eeb70a7a6352"
 "checksum libnotify 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "fd79e1611aab8126e72db4ad3536b6df2437071196c7008a3d38f5100a9a8a4f"
 "checksum libnotify-sys 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "29f139d03ca76afea6560ec6642a5e0d32b1e5f00e1abf6c40c667772a4ba63a"
-"checksum linefeed 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "695e327659c57119c3f82abad8e89b4faf102716c7c03434b70b126df2135c79"
+"checksum linefeed 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)" = "ff56c1f86fc5461bb140696e89fd6a8d098716d2c6748c8bac701266c3d1301d"
 "checksum nix 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7a7bb1da2be7da3cbffda73fc681d509ffd9e665af478d2bee1907cee0bc64b2"
 "checksum ole32-sys 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "5d2c49021782e5233cd243168edfa8037574afed4eba4bbaf538b3d8d1789d8c"
 "checksum pkg-config 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)" = "8cee804ecc7eaf201a4a207241472cc870e825206f6c031e3ee2a72fa425f2fa"
