@@ -4,7 +4,7 @@ version = "0.0.1"
 authors = ["Mika Attila <radiantstatue@gmail.com>"]
 
 [dependencies]
-libnotify = "0.3.0"
+notify-rust = "3.3.0"
 linefeed = "0.1.1"
 librc = { path = "librc" }
 atty = "0.1.2"

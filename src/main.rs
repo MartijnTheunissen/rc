@@ -8,10 +8,8 @@ fn show_output(expr: &str, string: &str) {
     if atty::is() {
         println!("{}", string);
     } else {
-        extern crate libnotify;
-        let notify = libnotify::Context::new("rc").unwrap();
-        let n = notify.new_notification(&format!("{} = {}", expr, string), None, None).unwrap();
-        n.show().unwrap();
+        extern crate notify_rust;
+        notify_rust::Notification::new().summary(&format!("{} = {}", expr, string)).show().unwrap();
     }
 }
 
