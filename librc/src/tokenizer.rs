@@ -31,7 +31,8 @@ fn is_separator(c: char) -> bool {
 }
 
 fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
-    where T: Iterator<Item = char>
+where
+    T: Iterator<Item = char>,
 {
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
@@ -49,7 +50,8 @@ fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
 }
 
 fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
-    where T: Iterator<Item = char>
+where
+    T: Iterator<Item = char>,
 {
     let mut string = String::new();
     while let Some(&c) = chars.peek() {
@@ -66,7 +68,8 @@ fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
 }
 
 pub fn tokenize<T>(chars: T) -> Result<Vec<Token>, Error>
-    where T: Iterator<Item = char>
+where
+    T: Iterator<Item = char>,
 {
     let mut tokens = Vec::new();
     let mut chars = chars.peekable();

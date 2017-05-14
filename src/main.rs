@@ -9,14 +9,19 @@ fn show_output(expr: &str, string: &str) {
         println!("{}", string);
     } else {
         extern crate notify_rust;
-        notify_rust::Notification::new().summary(&format!("{} = {}", expr, string)).show().unwrap();
+        notify_rust::Notification::new()
+            .summary(&format!("{} = {}", expr, string))
+            .show()
+            .unwrap();
     }
 }
 
 fn main() {
     let mut calc = librc::calc::Calc::new();
 
-    let input = std::env::args().skip(1).fold(String::new(), |a, b| a + " " + &b);
+    let input = std::env::args()
+        .skip(1)
+        .fold(String::new(), |a, b| a + " " + &b);
 
     if !input.is_empty() {
         let exprs = input.split(';');

@@ -51,10 +51,11 @@ impl Calc {
         }
     }
 
-    fn do_op(&self,
-             operands: &mut Vec<Operand>,
-             operators: &mut Vec<Operator>)
-             -> Result<(), Error> {
+    fn do_op(
+        &self,
+        operands: &mut Vec<Operand>,
+        operators: &mut Vec<Operator>,
+    ) -> Result<(), Error> {
         use tokens::InfixOp;
         let op = match operators.pop() {
             Some(op) => op,
@@ -97,7 +98,8 @@ impl Calc {
     }
 
     fn eval_tokens<T>(&mut self, tokens: T) -> Result<NumType, Error>
-        where T: Iterator<Item = Token>
+    where
+        T: Iterator<Item = Token>,
     {
         let mut operands: Vec<Operand> = Vec::new();
         let mut operators: Vec<Operator> = Vec::new();
@@ -149,8 +151,11 @@ impl Calc {
                             match op {
                                 Operand::Var(v) => assign_to = Some(v),
                                 Operand::Num(_) => {
-                                    return Err(Error::Other("Can't assign to a number, silly!"
-                                                                .into()))
+                                    return Err(
+                                        Error::Other(
+                                            "Can't assign to a number, silly!".into(),
+                                        )
+                                    )
                                 }
                             }
                         }
@@ -229,10 +234,17 @@ mod test {
     test!(test_simple_arith_sub_mul_add, "24 - 2 * 70 + 2", -114.);
     test!(test_precedence, "9 + 4 * 2", 17.);
     test!(test_simple_parens, "3 * (2 + 4)", 18.);
-    test!(test_nested_parens, "3 + 4 + 2 * 7 * (3 + (2 + 4) * 2)", 217.);
-    test!(ultimate_challenge, "3250 * (245 + 6) - (24 - 3 + 4 - 24 * 3 + -24 \
-                               - 2 * (64 + (5 + (3 + 4 * 7 - (24 - 4 - 2 + 1 \
-                               * 3) + 2 + 4) - 3 * 6) + 6) + 2) + 4 * 2",
-                               815973.);
+    test!(
+        test_nested_parens,
+        "3 + 4 + 2 * 7 * (3 + (2 + 4) * 2)",
+        217.
+    );
+    test!(
+        ultimate_challenge,
+        "3250 * (245 + 6) - (24 - 3 + 4 - 24 * 3 + -24 \
+         - 2 * (64 + (5 + (3 + 4 * 7 - (24 - 4 - 2 + 1 \
+         * 3) + 2 + 4) - 3 * 6) + 6) + 2) + 4 * 2",
+        815973.
+    );
     test!(assign_no_space, "foo=2", 2.);
 }
