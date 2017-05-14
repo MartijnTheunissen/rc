@@ -1,7 +1,7 @@
 use NumType;
+use std::fmt;
 use std::str::FromStr;
 use tokens::Token;
-use std::fmt;
 
 #[derive(Debug, PartialEq)]
 pub enum Error {

@@ -1,8 +1,8 @@
-use tokenizer;
 use NumType;
 use std::collections::HashMap;
-use tokens::{Token, Operand, Operator, InfixOp};
 use std::fmt;
+use tokenizer;
+use tokens::{InfixOp, Operand, Operator, Token};
 
 pub struct Calc {
     vars: HashMap<String, NumType>,
