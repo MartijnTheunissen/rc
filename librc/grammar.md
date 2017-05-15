@@ -17,7 +17,8 @@ Oh, and it must also be able to be parsed by Rust's `f64::from_str`. *shrugs*
 
 ### Identifier
 Consists of one or more unicode scalar values that have the "alphabetic" property.
-Also they must not be keywords.
+Also they must not be keywords. Oh, and they can also contain _.
+Oh, and they can also contain [0-9], but not begin with them.
 
 ### Special tokens
 `+`, `-`, `/`, `*`, `^`, `(`, `)`, `,`, `=`, `fn`, `->`

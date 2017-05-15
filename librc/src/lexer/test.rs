@@ -27,3 +27,11 @@ test!(
         span: (0, 9),
     }
 );
+test!(
+    ident,
+    "foo_bar_932",
+    Token {
+        kind: Identifier,
+        span: (0, 11),
+    }
+);
