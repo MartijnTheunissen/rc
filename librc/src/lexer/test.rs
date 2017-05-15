@@ -20,3 +20,18 @@ fn numeric_literal_no_frac() {
         )
     );
 }
+
+#[test]
+fn numeric_literal_with_frac() {
+    assert_eq!(
+        lex("9234.3247"),
+        Ok(
+            vec![
+                Token {
+                    kind: NumLiteral(9234.3247),
+                    span: (0, 9),
+                },
+            ]
+        )
+    )
+}
