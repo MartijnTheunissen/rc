@@ -44,3 +44,16 @@ Asterisk, 7, 8,
 NumLiteral(8.), 9, 10,
 RParen, 10, 11
 );
+test!(fndef: "fn add(a1, a2) -> a1 + a2" ==
+FnKeyword, 0, 2,
+Identifier, 3, 6,
+LParen, 6, 7,
+Identifier, 7, 9,
+Comma, 9, 10,
+Identifier, 11, 13,
+RParen, 13, 14,
+RightArrow, 15, 17,
+Identifier, 18, 20,
+Plus, 21, 22,
+Identifier, 23, 25
+);

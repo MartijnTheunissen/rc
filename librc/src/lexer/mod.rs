@@ -78,13 +78,28 @@ impl<'a> Lexer<'a> {
             // after reaching the end.
             LexState::End => {}
             LexState::Identifier => {
-                self.tokens
-                    .push(
-                        Token {
-                            kind: TokenKind::Identifier,
-                            span: (self.token_begin, end_pos),
-                        }
-                    );
+                let span = (self.token_begin, end_pos);
+
+                match &self.text[span.0..span.1] {
+                    "fn" => {
+                        self.tokens
+                            .push(
+                                Token {
+                                    kind: TokenKind::FnKeyword,
+                                    span,
+                                }
+                            )
+                    }
+                    _ => {
+                        self.tokens
+                            .push(
+                                Token {
+                                    kind: TokenKind::Identifier,
+                                    span,
+                                }
+                            )
+                    }
+                }
             }
             LexState::NumLiteral => {
                 let text = &self.text[self.token_begin..end_pos];
@@ -120,6 +135,7 @@ impl<'a> Lexer<'a> {
                     "^" => TokenKind::Caret,
                     "," => TokenKind::Comma,
                     "=" => TokenKind::EqualsSign,
+                    "->" => TokenKind::RightArrow,
                     _ => {
                         return Err(
                             Error {
@@ -288,4 +304,6 @@ pub enum TokenKind {
     RParen,
     Comma,
     EqualsSign,
+    RightArrow,
+    FnKeyword,
 }
