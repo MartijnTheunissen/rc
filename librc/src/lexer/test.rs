@@ -23,7 +23,7 @@ LParen, 13, 14,
 NumLiteral(3.), 14, 15,
 Minus, 16, 17,
 Identifier, 18, 21,
-Rparen, 23, 24
+RParen, 23, 24
 );
 test!(assign: "a = 3 * (8.24 + 2.62)" ==
 Identifier, 0, 1,
@@ -34,5 +34,13 @@ LParen, 8, 9,
 NumLiteral(8.24), 9, 13,
 Plus, 14, 15,
 NumLiteral(2.62), 16, 20,
-Rparen, 20, 21
+RParen, 20, 21
+);
+test!(fncall: "sqrt(8 * 8)" ==
+Identifier, 0, 4,
+LParen, 4, 5,
+NumLiteral(8.), 5, 6,
+Asterisk, 7, 8,
+NumLiteral(8.), 9, 10,
+RParen, 10, 11
 );

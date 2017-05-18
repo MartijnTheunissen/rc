@@ -116,7 +116,7 @@ impl<'a> Lexer<'a> {
                     "*" => TokenKind::Asterisk,
                     "/" => TokenKind::ForwardSlash,
                     "(" => TokenKind::LParen,
-                    ")" => TokenKind::Rparen,
+                    ")" => TokenKind::RParen,
                     "^" => TokenKind::Caret,
                     "," => TokenKind::Comma,
                     "=" => TokenKind::EqualsSign,
@@ -285,7 +285,7 @@ pub enum TokenKind {
     ForwardSlash,
     Caret,
     LParen,
-    Rparen,
+    RParen,
     Comma,
     EqualsSign,
 }
