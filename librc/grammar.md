@@ -3,7 +3,7 @@
 ```
 a = 3 * (8.24 + 2.62)
 sqrt(8 * 8)
-add = fn(a1, a2) -> a1 + a2
+fn add(a1, a2) -> a1 + a2
 ```
 
 # Grammar
@@ -17,8 +17,13 @@ Oh, and it must also be able to be parsed by Rust's `f64::from_str`. *shrugs*
 
 ### Identifier
 Consists of one or more unicode scalar values that have the "alphabetic" property.
-Also they must not be keywords. Oh, and they can also contain _.
+Oh, and they can also contain _.
 Oh, and they can also contain [0-9], but not begin with them.
+Also not a Keyword.
 
-### Special tokens
-`+`, `-`, `/`, `*`, `^`, `(`, `)`, `,`, `=`, `fn`, `->`
+### Keyword
+Same rules as identifier, except it's a predefined name that has a special meaning.
+The keywords are: `fn`.
+
+### Operator
+Either of `+`, `-`, `/`, `*`, `^`, `(`, `)`, `,`, `=`, `->`.

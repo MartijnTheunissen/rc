@@ -35,3 +35,43 @@ test!(
         span: (0, 11),
     }
 );
+test!(
+    arith,
+    "foo+ 2.4    *(3 - bar  )",
+    Token {
+        kind: Identifier,
+        span: (0, 3),
+    },
+    Token {
+        kind: Plus,
+        span: (3, 4),
+    },
+    Token {
+        kind: NumLiteral(2.4),
+        span: (5, 8),
+    },
+    Token {
+        kind: Asterisk,
+        span: (12, 13),
+    },
+    Token {
+        kind: LParen,
+        span: (13, 14),
+    },
+    Token {
+        kind: NumLiteral(3.),
+        span: (14, 15),
+    },
+    Token {
+        kind: Minus,
+        span: (16, 17),
+    },
+    Token {
+        kind: Identifier,
+        span: (18, 21),
+    },
+    Token {
+        kind: Rparen,
+        span: (23, 24),
+    }
+);
