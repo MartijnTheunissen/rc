@@ -1,6 +1,6 @@
-extern crate linefeed;
-extern crate librc;
 extern crate atty;
+extern crate librc;
+extern crate linefeed;
 
 use linefeed::Reader;
 
@@ -52,12 +52,10 @@ fn main() {
                 }
             }
             Ok(None) => break,
-            Err(e) => {
-                match e.kind() {
-                    std::io::ErrorKind::Interrupted => break,
-                    _ => panic!("I/O error: {}", e),
-                }
-            }
+            Err(e) => match e.kind() {
+                std::io::ErrorKind::Interrupted => break,
+                _ => panic!("I/O error: {}", e),
+            },
         }
     }
 }
