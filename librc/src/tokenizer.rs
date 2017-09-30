@@ -30,7 +30,7 @@ fn is_separator(c: char) -> bool {
     }
 }
 
-fn get_num<T>(mut chars: &mut Peekable<T>) -> Result<NumType, Error>
+fn get_num<T>(chars: &mut Peekable<T>) -> Result<NumType, Error>
 where
     T: Iterator<Item = char>,
 {
@@ -49,7 +49,7 @@ where
     }
 }
 
-fn get_ident<T>(mut chars: &mut Peekable<T>) -> Result<String, Error>
+fn get_ident<T>(chars: &mut Peekable<T>) -> Result<String, Error>
 where
     T: Iterator<Item = char>,
 {
