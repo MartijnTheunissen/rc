@@ -4,6 +4,7 @@ use std::fmt;
 use tokenizer;
 use tokens::{InfixOp, Operand, Operator, Token};
 
+#[derive(Default)]
 pub struct Calc {
     vars: HashMap<String, NumType>,
 }
@@ -33,10 +34,8 @@ impl fmt::Display for Error {
 }
 
 impl Calc {
-    pub fn new() -> Calc {
-        Calc {
-            vars: HashMap::new(),
-        }
+    pub fn new() -> Self {
+        Self::default()
     }
 
     pub fn eval_print(&mut self, input: &str) {
