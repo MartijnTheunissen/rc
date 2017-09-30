@@ -5,9 +5,9 @@ authors = ["Mika Attila <radiantstatue@gmail.com>"]
 
 [dependencies]
 notify-rust = "3.3.0"
-linefeed = "0.1.1"
+linefeed = "0.3.0"
 librc = { path = "librc" }
-atty = "0.1.2"
+atty = "0.2.2"
 
 [workspace]
 members = ["librc"]

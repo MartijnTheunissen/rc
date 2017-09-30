@@ -2,10 +2,10 @@ extern crate atty;
 extern crate librc;
 extern crate linefeed;
 
-use linefeed::Reader;
+use linefeed::{Reader, ReadResult};
 
 fn show_output(expr: &str, string: &str) {
-    if atty::is() {
+    if atty::is(atty::Stream::Stdout) {
         println!("{}", string);
     } else {
         extern crate notify_rust;
@@ -41,7 +41,7 @@ fn main() {
 
     loop {
         match reader.read_line() {
-            Ok(Some(line)) => {
+            Ok(ReadResult::Input(line)) => {
                 let text = line.trim();
                 if !text.is_empty() {
                     let expressions = text.split(';');
@@ -51,11 +51,15 @@ fn main() {
                     reader.add_history(text.into());
                 }
             }
-            Ok(None) => break,
-            Err(e) => match e.kind() {
-                std::io::ErrorKind::Interrupted => break,
-                _ => panic!("I/O error: {}", e),
-            },
+            Ok(ReadResult::Eof) => break,
+            Ok(ReadResult::Signal(sig)) => {
+                eprintln!("Fatal: Received signal {:?}", sig);
+                return;
+            }
+            Err(e) => {
+                eprintln!("Fatal I/O error: {}", e);
+                return;
+            }
         }
     }
 }
