@@ -75,10 +75,10 @@ where
     let mut chars = chars.peekable();
 
     while let Some(&c) = chars.peek() {
-        use tokens::Token::*;
-        use tokens::Operator::*;
-        use tokens::Operand::*;
         use tokens::InfixOp::*;
+        use tokens::Operand::*;
+        use tokens::Operator::*;
+        use tokens::Token::*;
 
         match c {
             // Either an infix - or a number with - prefix
@@ -124,14 +124,12 @@ where
             c if c == '_' || c.is_alphabetic() => {
                 tokens.push(Operand(Var(try!(get_ident(&mut chars)))));
             }
-            c => {
-                if let Some(tok) = ::tokens::InfixOp::from_char(c) {
-                    tokens.push(Operator(Infix(tok)));
-                    chars.next();
-                } else {
-                    return Err(Error::UnexpectedChar(c));
-                }
-            }
+            c => if let Some(tok) = ::tokens::InfixOp::from_char(c) {
+                tokens.push(Operator(Infix(tok)));
+                chars.next();
+            } else {
+                return Err(Error::UnexpectedChar(c));
+            },
         }
     }
 

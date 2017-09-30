@@ -13,16 +13,14 @@ pub enum InfixOp {
 impl InfixOp {
     pub fn from_char(c: char) -> Option<InfixOp> {
         use self::InfixOp::*;
-        Some(
-            match c {
-                '+' => Add,
-                '-' => Sub,
-                '/' => Div,
-                '*' => Mul,
-                '^' => Pow,
-                _ => return None,
-            }
-        )
+        Some(match c {
+            '+' => Add,
+            '-' => Sub,
+            '/' => Div,
+            '*' => Mul,
+            '^' => Pow,
+            _ => return None,
+        })
     }
 }
 

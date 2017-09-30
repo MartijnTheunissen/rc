@@ -34,7 +34,9 @@ impl fmt::Display for Error {
 
 impl Calc {
     pub fn new() -> Calc {
-        Calc { vars: HashMap::new() }
+        Calc {
+            vars: HashMap::new(),
+        }
     }
 
     pub fn eval_print(&mut self, input: &str) {
@@ -69,21 +71,17 @@ impl Calc {
             }
         };
         let rhs = match operands.pop() {
-            Some(operand) => {
-                match operand {
-                    Operand::Num(n) => n,
-                    Operand::Var(v) => try!(self.lookup_var(v)),
-                }
-            }
+            Some(operand) => match operand {
+                Operand::Num(n) => n,
+                Operand::Var(v) => try!(self.lookup_var(v)),
+            },
             None => return Err(Error::MissingRhs(op)),
         };
         let lhs = match operands.pop() {
-            Some(operand) => {
-                match operand {
-                    Operand::Num(n) => n,
-                    Operand::Var(v) => try!(self.lookup_var(v)),
-                }
-            }
+            Some(operand) => match operand {
+                Operand::Num(n) => n,
+                Operand::Var(v) => try!(self.lookup_var(v)),
+            },
             None => return Err(Error::MissingLhs(op)),
         };
         let result = match op {
@@ -134,34 +132,24 @@ impl Calc {
                             operators.push(Operator::Infix(infix));
                         }
                         Operator::LParen => operators.push(Operator::LParen),
-                        Operator::RParen => {
-                            while let Some(prev_op) = operators.pop() {
-                                operators.push(prev_op);
-                                try!(self.do_op(&mut operands, &mut operators));
-                                if prev_op == Operator::LParen {
-                                    break;
-                                }
+                        Operator::RParen => while let Some(prev_op) = operators.pop() {
+                            operators.push(prev_op);
+                            try!(self.do_op(&mut operands, &mut operators));
+                            if prev_op == Operator::LParen {
+                                break;
                             }
-                        }
+                        },
                     }
                 }
-                Token::Assign => {
-                    match operands.pop() {
-                        Some(op) => {
-                            match op {
-                                Operand::Var(v) => assign_to = Some(v),
-                                Operand::Num(_) => {
-                                    return Err(
-                                        Error::Other(
-                                            "Can't assign to a number, silly!".into(),
-                                        )
-                                    )
-                                }
-                            }
+                Token::Assign => match operands.pop() {
+                    Some(op) => match op {
+                        Operand::Var(v) => assign_to = Some(v),
+                        Operand::Num(_) => {
+                            return Err(Error::Other("Can't assign to a number, silly!".into()))
                         }
-                        None => return Err(Error::Other("Can't assign to nothing".into())),
-                    }
-                }
+                    },
+                    None => return Err(Error::Other("Can't assign to nothing".into())),
+                },
             }
             // println!(" nums: {:?} | ops: {:?}", operands, operators);
         }
@@ -172,12 +160,10 @@ impl Calc {
 
         // The last remaining operand in the stack is the answer
         let result = match operands.pop() {
-            Some(tok) => {
-                match tok {
-                    Operand::Num(n) => Ok(n),
-                    Operand::Var(i) => self.lookup_var(i),
-                }
-            }
+            Some(tok) => match tok {
+                Operand::Num(n) => Ok(n),
+                Operand::Var(i) => self.lookup_var(i),
+            },
             None => Err(Error::Other("No result? (stack empty)".into())),
         };
 
@@ -201,7 +187,6 @@ impl Calc {
             Some(v) => Ok(*v),
             None => Err(Error::UndefinedVariable(ident)),
         }
-
     }
 }
 
